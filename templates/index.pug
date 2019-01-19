@@ -1,0 +1,13 @@
+extends layout 
+    
+block content
+    h1 #{title}
+    ul
+        each article, i in articles  
+            li= articles[i].title
+            li= article.title
+        
+        each art, i in articles 
+            li #{articles[i].title}
+
+        
