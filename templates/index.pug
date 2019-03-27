@@ -1,6 +1,7 @@
 extends layout 
     
 block content
+
     h1 #{title}
     ul
         each article, i in articles  
@@ -8,6 +9,7 @@ block content
             li= article.title
         
         each art, i in articles 
-            li #{articles[i].title}
+            li #{art.title}
 
-        
+        //- #{} is for evaluation of js into pug just like jsx maybe ..
+        //- this has nothing to do with extracting properties from app.js as you thought earlier
