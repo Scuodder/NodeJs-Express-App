@@ -2,3 +2,15 @@ extends layout
 
 block content
     h1 #{title}
+    form(method="POST" action="/articles/add")
+        div(class="form-group")
+            label Title
+            input(class="form-control" type="text" name="title")
+        div(class="form-group")
+            label Author
+            input(class="form-control" type="text" name="author" )
+        div(class="form-group")
+            label Body
+            textarea(class="form-control" name="body") 
+        br    
+        input(class="btn btn-danger" type='submit' value='Submit')     

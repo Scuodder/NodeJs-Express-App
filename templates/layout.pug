@@ -2,10 +2,37 @@ doctype html
 html 
     head
         title NodeJS-Express-App
+        link(href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet")
+    body
 
-    body 
-        block content 
-        br 
-        hr
-        footer
-            p copyright &copy; 2019
+        nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+            a.navbar-brand(href='/') NodeExpressApp
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarsExampleDefault.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item
+                        a.nav-link(href='/')
+                            | Home 
+                            span.sr-only (current)
+                    li.nav-item
+                        a.nav-link(href='/articles/add') Add Article
+                
+                
+                //- form.form-inline.my-2.my-lg-0
+        
+
+        div(class="container")       
+
+            if errorsAdd 
+                each error in errorsAdd 
+                    div.alert.alert-danger= error.msg
+
+            block content 
+            br 
+            hr
+            footer
+                p copyright &copy; 2019
+
+        script(src="/bower_components/jquery/dist/jquery.js")        
+        script(src="/bower_components/bootstrap/dist/js/bootstrap.js")        

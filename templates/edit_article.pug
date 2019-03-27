@@ -1,0 +1,17 @@
+extends layout 
+
+block content
+    h1 #{title}
+    form(method="POST" action="/articles/edit/" + article._id)
+        div(class="form-group")
+            label Title
+            input(class="form-control" type="text" name="title" value=article.title)
+        div(class="form-group")
+            label Author
+            input(class="form-control" type="text" name="author" value=article.author)
+        div(class="form-group")
+            label Body
+            textarea(class="form-control" name="body" )= article.body
+        br    
+        input(class="btn btn-danger" type='submit' value='Submit')     
+        
