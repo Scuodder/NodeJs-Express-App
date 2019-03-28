@@ -1,4 +1,4 @@
-let mongoose = require('mongoose') ;
+const mongoose = require('mongoose') ;
 
 // mongoose has Schema function to provide structure to each of our BSON documents. it accepts object for blueprint
 //schema mongoose.Schema --> 

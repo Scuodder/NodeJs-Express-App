@@ -1,0 +1,84 @@
+const express = require('express');
+const router = express.Router() ;
+const { check, validationResult } = require('express-validator/check')
+const User = require('../models/user.js')
+const bcrypt = require('bcryptjs')
+const passport = require('passport')
+
+// register form 
+
+router.get('/register', function(req, res) {
+    res.render('register');
+})
+
+
+// register process 
+
+router.post('/register',[
+    check('name').not().isEmpty({ignore_whitespace : true}).withMessage('Name required'),
+    check('email').not().isEmpty({ignore_whitespace : true}).withMessage('Email required').isEmail()
+        .withMessage('Invalid Email'),
+    check('username').not().isEmpty({ignore_whitespace : true}).withMessage('Username required'),
+    check('password').not().isEmpty({ignore_whitespace : true}).withMessage('Password required'),
+    check('password2').not().isEmpty({ignore_whitespace : true}).withMessage('Confirm Password field Required')
+        .custom(function(value, {req}){
+           return (req.body.password === value)
+        }).withMessage('Passwords donot match. Try again')
+
+], function(req, res){
+    const errors = validationResult(req) ;
+    if (!errors.isEmpty()){
+        res.render('register', {
+            errorsRegister : errors.mapped() 
+        })
+        return;
+    }
+
+    const newUser = new User({
+        name: req.body.name,
+        username: req.body.username, 
+        password: req.body.password,
+        email: req.body.email
+    })
+
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) {
+            console.log(err)
+            return ;
+        }
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
+            if (err) {
+                console.log(err)
+                return ;
+            }
+            newUser.password = hash;
+            newUser.save(function(err){
+                if (err) {
+                    console.log(err) 
+                    return;
+                }
+                // this is the point where the user account has been saved in the db  
+                res.redirect('/users/login')
+            })
+            
+        })
+    })
+    
+})
+
+
+router.get('/login', function(req, res) {
+    res.render('login')
+})
+
+router.post('/login', passport.authenticate("local",{
+        successRedirect : '/',
+        failureRedirect : '/users/login'
+    }))
+
+router.get('/logout',function(req, res, next) {
+    req.logout()
+    res.redirect('/users/login')
+})
+
+module.exports = router ;
